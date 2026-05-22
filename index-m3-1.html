@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>@SuperChrisss — AX Manager Modules</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300..800&family=Google+Sans+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<style>
+/* ──────────────────────────────────────────────
+   MATERIAL 3 EXPRESSIVE — DARK · TEAL
+   Tokens follow M3 reference: primary, surface,
+   surface containers, on-* roles, state layers,
+   shapes (xs/sm/md/lg/xl), elevation tints.
+   ────────────────────────────────────────────── */
+:root {
+  /* Primary key color → teal */
+  --md-sys-color-primary:            #4FD8C4;
+  --md-sys-color-on-primary:         #00382F;
+  --md-sys-color-primary-container:  #005047;
+  --md-sys-color-on-primary-container:#74F5DF;
+
+  --md-sys-color-secondary:          #B1CCC6;
+  --md-sys-color-on-secondary:       #1C3531;
+  --md-sys-color-secondary-container:#334B47;
+  --md-sys-color-on-secondary-container:#CDE8E2;
+
+  --md-sys-color-tertiary:           #B4C8E8;
+  --md-sys-color-on-tertiary:        #1D314B;
+  --md-sys-color-tertiary-container: #354863;
+  --md-sys-color-on-tertiary-container:#D4E3FF;
+
+  --md-sys-color-error:              #FFB4AB;
+  --md-sys-color-on-error:           #690005;
+  --md-sys-color-error-container:    #93000A;
+  --md-sys-color-on-error-container: #FFDAD6;
+
+  /* Surfaces — M3 dark uses tonal containers */
+  --md-sys-color-surface:            #0E1513;
+  --md-sys-color-on-surface:         #DDE4E1;
+  --md-sys-color-on-surface-variant: #BEC9C5;
+  --md-sys-color-surface-variant:    #3F4946;
+  --md-sys-color-outline:            #899390;
+  --md-sys-color-outline-variant:    #3F4946;
+
+  --md-sys-color-surface-dim:        #0E1513;
+  --md-sys-color-surface-bright:     #343B39;
+  --md-sys-color-surface-container-lowest:#080F0D;
+  --md-sys-color-surface-container-low:   #161D1B;
+  --md-sys-color-surface-container:       #1A2120;
+  --md-sys-color-surface-container-high:  #252B2A;
+  --md-sys-color-surface-container-highest:#2F3635;
+
+  --md-sys-color-inverse-surface:    #DDE4E1;
+  --md-sys-color-inverse-on-surface: #2B3231;
+  --md-sys-color-inverse-primary:    #006B5E;
+
+  --md-sys-color-scrim:              #000000;
+  --md-sys-color-shadow:             #000000;
+
+  /* Shape scale */
+  --md-sys-shape-xs: 4px;
+  --md-sys-shape-sm: 8px;
+  --md-sys-shape-md: 12px;
+  --md-sys-shape-lg: 16px;
+  --md-sys-shape-xl: 28px;
+  --md-sys-shape-full: 9999px;
+
+  /* Elevation (tonal overlay handled via surface-container tiers + shadow) */
+  --md-sys-elevation-1: 0 1px 2px 0 rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
+  --md-sys-elevation-2: 0 1px 2px 0 rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
+  --md-sys-elevation-3: 0 4px 8px 3px rgba(0,0,0,.15), 0 1px 3px 0 rgba(0,0,0,.30);
+  --md-sys-elevation-4: 0 6px 10px 4px rgba(0,0,0,.15), 0 2px 3px 0 rgba(0,0,0,.30);
+
+  /* Motion */
+  --md-sys-motion-emphasized: cubic-bezier(.2,0,0,1);
+  --md-sys-motion-standard:   cubic-bezier(.2,0,0,1);
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  font-family: 'Roboto Flex', system-ui, sans-serif;
+  font-variation-settings: "opsz" 14, "wght" 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* M3 Type scale */
+.display-l { font-size: clamp(48px, 8vw, 88px); font-variation-settings: "opsz" 96, "wght" 400; line-height: 1.05; letter-spacing: -.5px; }
+.headline-l { font-size: clamp(28px, 4vw, 40px); font-variation-settings: "opsz" 32, "wght" 500; line-height: 1.15; }
+.title-l { font-size: 22px; font-variation-settings: "opsz" 22, "wght" 500; }
+.title-m { font-size: 16px; font-variation-settings: "wght" 600; letter-spacing: .15px; }
+.label-l { font-size: 14px; font-variation-settings: "wght" 500; letter-spacing: .1px; }
+.label-m { font-size: 12px; font-variation-settings: "wght" 600; letter-spacing: .5px; }
+.body-l { font-size: 16px; line-height: 1.55; }
+.body-m { font-size: 14px; line-height: 1.55; color: var(--md-sys-color-on-surface-variant); }
+.mono   { font-family: 'Google Sans Code', monospace; }
+
+.material-symbols-rounded { font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24; vertical-align: middle; }
+
+/* ── BG canvas ── */
+#bg-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .35; }
+
+/* ── TOP APP BAR (M3 large/center-aligned hybrid) ── */
+.top-app-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  padding: 0 16px 0 8px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  background: color-mix(in oklab, var(--md-sys-color-surface-container) 78%, transparent);
+  backdrop-filter: saturate(140%) blur(18px);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+.brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
+.brand-mark {
+  width: 40px; height: 40px;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border-radius: var(--md-sys-shape-md);
+  display: grid; place-items: center;
+  font-family: 'Google Sans Code', monospace;
+  font-weight: 700; font-size: 14px;
+}
+.brand-text { line-height: 1.2; }
+.brand-text small { color: var(--md-sys-color-on-surface-variant); font-size: 11px; letter-spacing: .4px; }
+.brand-text strong { color: var(--md-sys-color-primary); font-weight: 600; }
+
+.bar-nav { display: flex; gap: 4px; }
+.bar-nav a {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 14px;
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
+  border-radius: var(--md-sys-shape-full);
+  font-size: 14px; font-weight: 500;
+  transition: background .2s var(--md-sys-motion-standard), color .2s;
+}
+.bar-nav a::after { /* state layer */
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: currentColor; opacity: 0; transition: opacity .2s;
+}
+.bar-nav a:hover { color: var(--md-sys-color-on-surface); }
+.bar-nav a:hover::after { opacity: .08; }
+
+.assist-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 32px; padding: 0 12px;
+  border: 1px solid var(--md-sys-color-outline);
+  color: var(--md-sys-color-on-surface);
+  background: transparent;
+  border-radius: var(--md-sys-shape-sm);
+  font-size: 13px; font-weight: 500;
+  font-family: 'Google Sans Code', monospace;
+}
+.assist-chip .material-symbols-rounded { font-size: 18px; color: var(--md-sys-color-primary); }
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px 6px 10px;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-radius: var(--md-sys-shape-full);
+  font-size: 12px; font-weight: 600; letter-spacing: .4px;
+  margin-bottom: 28px;
+  opacity: 0; animation: fadeUp .6s .2s var(--md-sys-motion-emphasized) forwards;
+}
+.hero-eyebrow .material-symbols-rounded { font-size: 18px; }
+
+.hero-title {
+  font-variation-settings: "opsz" 96, "wght" 600;
+  margin-bottom: 14px;
+  opacity: 0; animation: fadeUp .6s .35s var(--md-sys-motion-emphasized) forwards;
+}
+.hero-title .accent { color: var(--md-sys-color-primary); }
+
+.hero-handle {
+  font-family: 'Google Sans Code', monospace;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: clamp(14px, 2vw, 18px);
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp .6s .45s forwards;
+}
+.hero-desc {
+  max-width: 560px;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 16px; line-height: 1.65;
+  margin-bottom: 40px;
+  opacity: 0; animation: fadeUp .6s .55s forwards;
+}
+
+/* Stat chips → outlined cards */
+.hero-stats {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 44px;
+  opacity: 0; animation: fadeUp .6s .65s forwards;
+}
+.stat-card {
+  min-width: 120px;
+  padding: 16px 20px;
+  background: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-lg);
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Google Sans Code', monospace;
+  color: var(--md-sys-color-primary);
+  font-size: 28px; font-weight: 600; line-height: 1;
+}
+.stat-label {
+  margin-top: 6px;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
+}
+
+.hero-cta {
+  display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  opacity: 0; animation: fadeUp .6s .75s forwards;
+}
+
+/* ── M3 BUTTONS ── */
+.btn {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 40px; padding: 0 24px;
+  border: none; cursor: pointer; text-decoration: none;
+  font-family: inherit; font-size: 14px; font-weight: 500; letter-spacing: .1px;
+  border-radius: var(--md-sys-shape-full);
+  transition: box-shadow .2s, background .2s;
+  overflow: hidden;
+}
+.btn .material-symbols-rounded { font-size: 18px; }
+.btn::after { /* state layer */
+  content: ""; position: absolute; inset: 0; background: currentColor; opacity: 0; transition: opacity .2s;
+}
+.btn:hover::after { opacity: .08; }
+.btn:active::after { opacity: .12; }
+.btn:focus-visible::after { opacity: .12; }
+
+.btn-filled {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  box-shadow: var(--md-sys-elevation-1);
+  padding: 0 24px 0 24px;
+}
+.btn-filled:hover { box-shadow: var(--md-sys-elevation-2); }
+
+.btn-tonal {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.btn-outlined {
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  border: 1px solid var(--md-sys-color-outline);
+}
+.btn-text {
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  padding: 0 12px;
+}
+
+/* ── SECTIONS ── */
+section { position: relative; z-index: 1; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-tag {
+  display: inline-block;
+  font-family: 'Google Sans Code', monospace;
+  color: var(--md-sys-color-primary);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  padding: 4px 12px;
+  border-radius: var(--md-sys-shape-full);
+  font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.section-title {
+  font-variation-settings: "opsz" 36, "wght" 500;
+  letter-spacing: -.3px;
+}
+.section-title span { color: var(--md-sys-color-primary); }
+
+/* ── MODULES SECTION ── */
+#modules {
+  padding: 80px 24px 40px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+
+/* M3 Filter chips */
+.filter-bar {
+  display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  margin-bottom: 40px;
+}
+.chip {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 32px; padding: 0 16px;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-sm);
+  font-family: inherit; font-size: 13px; font-weight: 500;
+  cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.chip::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: currentColor; opacity: 0; transition: opacity .2s;
+}
+.chip:hover::after { opacity: .08; }
+.chip.active {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  border-color: transparent;
+  padding-left: 8px;
+}
+.chip.active::before {
+  content: "check";
+  font-family: 'Material Symbols Rounded';
+  font-size: 18px;
+}
+
+/* ── MODULE CARDS (M3 elevated/filled) ── */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+  gap: 16px;
+}
+.module-card {
+  position: relative;
+  background: var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-sys-shape-lg);
+  padding: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex; flex-direction: column; gap: 14px;
+  transition: background .2s, box-shadow .25s var(--md-sys-motion-standard), transform .25s;
+  box-shadow: var(--md-sys-elevation-1);
+}
+.module-card::after {
+  content: ""; position: absolute; inset: 0; background: var(--md-sys-color-on-surface); opacity: 0;
+  transition: opacity .2s; pointer-events: none; border-radius: inherit;
+}
+.module-card:hover { background: var(--md-sys-color-surface-container); box-shadow: var(--md-sys-elevation-3); transform: translateY(-2px); }
+.module-card:hover::after { opacity: .04; }
+
+.card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: var(--md-sys-shape-md);
+  display: grid; place-items: center;
+  font-size: 24px;
+  background: var(--md-sys-color-primary-container);
+  flex-shrink: 0;
+}
+.card-badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+
+.badge {
+  font-family: 'Google Sans Code', monospace;
+  font-size: 10px; font-weight: 600; letter-spacing: .5px;
+  padding: 3px 8px;
+  border-radius: var(--md-sys-shape-xs);
+}
+.badge-root    { background: rgba(255,180,171,.14); color: #FFB4AB; }
+.badge-noroot  { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+.badge-beta    { background: rgba(255,200,120,.14); color: #FFD8A8; }
+.badge-webui   { background: var(--md-sys-color-tertiary-container); color: var(--md-sys-color-on-tertiary-container); }
+.badge-ai      { background: rgba(207,148,218,.16); color: #E4B6EE; }
+
+.card-name { font-size: 18px; font-weight: 600; letter-spacing: -.1px; color: var(--md-sys-color-on-surface); }
+.card-version {
+  font-family: 'Google Sans Code', monospace; font-size: 11px;
+  color: var(--md-sys-color-on-surface-variant); margin-top: 2px;
+}
+.card-desc { font-size: 14px; line-height: 1.55; color: var(--md-sys-color-on-surface-variant); flex: 1; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  font-size: 11px; padding: 3px 10px;
+  color: var(--md-sys-color-on-surface-variant);
+  background: var(--md-sys-color-surface-container-high);
+  border-radius: var(--md-sys-shape-full);
+}
+.card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+.card-category {
+  font-family: 'Google Sans Code', monospace;
+  font-size: 11px; color: var(--md-sys-color-on-surface-variant);
+  text-transform: lowercase;
+}
+.card-arrow {
+  width: 36px; height: 36px; border-radius: var(--md-sys-shape-full);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  display: grid; place-items: center;
+  transition: background .2s, color .2s;
+}
+.module-card:hover .card-arrow {
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+}
+.module-card.hidden { display: none; }
+
+/* ── ABOUT ── */
+#about { padding: 96px 24px; max-width: 960px; margin: 0 auto; }
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 16px; margin-top: 40px;
+}
+.about-card {
+  background: var(--md-sys-color-surface-container);
+  border-radius: var(--md-sys-shape-lg);
+  padding: 28px;
+}
+.about-card .icon {
+  width: 44px; height: 44px; border-radius: var(--md-sys-shape-md);
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  display: grid; place-items: center; margin-bottom: 16px;
+}
+.about-card .icon .material-symbols-rounded { font-size: 24px; }
+.about-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+.about-card p { font-size: 14px; line-height: 1.6; color: var(--md-sys-color-on-surface-variant); }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 16px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+footer span { color: var(--md-sys-color-primary); }
+.footer-right { font-family: 'Google Sans Code', monospace; font-size: 12px; }
+
+/* ── FAB (M3 Extended) ── */
+.fab {
+  position: fixed; bottom: 24px; right: 24px; z-index: 90;
+  display: inline-flex; align-items: center; gap: 12px;
+  height: 56px; padding: 0 20px;
+  background: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-radius: var(--md-sys-shape-lg);
+  text-decoration: none;
+  font-weight: 600; font-size: 14px;
+  box-shadow: var(--md-sys-elevation-3);
+  transition: box-shadow .25s, transform .25s;
+}
+.fab:hover { box-shadow: var(--md-sys-elevation-4); transform: translateY(-1px); }
+
+/* ── MODAL → M3 DIALOG ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: color-mix(in oklab, var(--md-sys-color-scrim) 50%, transparent);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s var(--md-sys-motion-emphasized);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--md-sys-color-surface-container-high);
+  border-radius: var(--md-sys-shape-xl);
+  width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto;
+  padding: 28px;
+  transform: scale(.95) translateY(8px);
+  transition: transform .25s var(--md-sys-motion-emphasized);
+  box-shadow: var(--md-sys-elevation-4);
+  color: var(--md-sys-color-on-surface);
+}
+.modal-overlay.open .modal { transform: scale(1) translateY(0); }
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  width: 40px; height: 40px;
+  background: transparent; color: var(--md-sys-color-on-surface-variant);
+  border: none; cursor: pointer;
+  border-radius: var(--md-sys-shape-full);
+  display: grid; place-items: center;
+  transition: background .2s;
+}
+.modal-close:hover { background: var(--md-sys-color-surface-container-highest); }
+.modal-icon {
+  width: 64px; height: 64px;
+  border-radius: var(--md-sys-shape-lg);
+  background: var(--md-sys-color-primary-container);
+  display: grid; place-items: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+.modal-name {
+  font-size: 26px; font-variation-settings: "wght" 500; letter-spacing: -.2px;
+  margin-bottom: 4px;
+}
+.modal-id {
+  font-family: 'Google Sans Code', monospace;
+  font-size: 12px; color: var(--md-sys-color-primary);
+  margin-bottom: 18px;
+}
+.modal-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+.modal-desc {
+  font-size: 14px; line-height: 1.65;
+  color: var(--md-sys-color-on-surface-variant);
+  margin-bottom: 24px;
+}
+.modal-features h4 {
+  font-size: 11px; font-family: 'Google Sans Code', monospace;
+  color: var(--md-sys-color-primary);
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.feature-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+.feature-list li {
+  font-size: 14px; color: var(--md-sys-color-on-surface);
+  display: flex; align-items: flex-start; gap: 12px; line-height: 1.5;
+}
+.feature-list li::before {
+  content: "check_circle";
+  font-family: 'Material Symbols Rounded';
+  color: var(--md-sys-color-primary);
+  font-size: 18px; line-height: 1.4;
+}
+.modal-footer {
+  display: flex; gap: 8px; justify-content: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--md-sys-color-surface-container-high); border-radius: var(--md-sys-shape-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--md-sys-color-outline-variant); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 720px) {
+  .top-app-bar { padding: 0 8px; }
+  .bar-nav { display: none; }
+  .assist-chip { display: none; }
+  #modules { padding: 64px 16px 40px; }
+  #about { padding: 72px 16px; }
+  .about-grid { grid-template-columns: 1fr; }
+  footer { padding: 24px 16px; flex-direction: column; align-items: flex-start; }
+  .fab span:not(.material-symbols-rounded) { display: none; }
+  .fab { padding: 0; width: 56px; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<!-- TOP APP BAR -->
+<header class="top-app-bar">
+  <div class="brand">
+    <div class="brand-mark">AX</div>
+    <div class="brand-text">
+      <div><strong>SuperChrisss</strong> Modules</div>
+      <small>AX Manager · KernelSU</small>
+    </div>
+  </div>
+  <nav class="bar-nav">
+    <a href="#modules"><span class="material-symbols-rounded" style="font-size:18px">apps</span>Modules</a>
+    <a href="#about"><span class="material-symbols-rounded" style="font-size:18px">info</span>About</a>
+    <a href="https://t.me/SuperChrisss" target="_blank"><span class="material-symbols-rounded" style="font-size:18px">send</span>Telegram</a>
+  </nav>
+  <div class="assist-chip">
+    <span class="material-symbols-rounded">verified</span>
+    v2025.1
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="material-symbols-rounded">android</span>
+    Android Module Developer
+  </div>
+  <h1 class="hero-title display-l">Module<br><span class="accent">Collection</span></h1>
+  <div class="hero-handle">@SuperChrisss</div>
+  <p class="hero-desc">
+    Flashable AX Manager modules built for performance, control, and clean design.
+    Root-optional tools crafted for the KernelSU ecosystem.
+  </p>
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-num" id="count-modules">17</div>
+      <div class="stat-label">Modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">AX</div>
+      <div class="stat-label">Platform</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">v2+</div>
+      <div class="stat-label">Android</div>
+    </div>
+  </div>
+  <div class="hero-cta">
+    <a href="#modules" class="btn btn-filled">
+      <span class="material-symbols-rounded">grid_view</span>
+      Browse Modules
+    </a>
+    <a href="https://t.me/SuperChrisss" class="btn btn-tonal" target="_blank">
+      <span class="material-symbols-rounded">send</span>
+      Telegram
+    </a>
+    <a href="#about" class="btn btn-text">Learn more</a>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section id="modules">
+  <div class="section-header">
+    <div class="section-tag">my_modules</div>
+    <h2 class="section-title headline-l">All <span>Modules</span></h2>
+  </div>
+
+  <div class="filter-bar" role="tablist">
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="battery">Battery</button>
+    <button class="chip" data-filter="performance">Performance</button>
+    <button class="chip" data-filter="debloat">Debloater</button>
+    <button class="chip" data-filter="cleaner">Cleaner</button>
+    <button class="chip" data-filter="network">Network</button>
+    <button class="chip" data-filter="system">System</button>
+    <button class="chip" data-filter="game">Gaming</button>
+  </div>
+
+  <div class="modules-grid" id="modules-grid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-tag">about_me</div>
+    <h2 class="section-title headline-l">Built by <span>@SuperChrisss</span></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-card">
+      <div class="icon"><span class="material-symbols-rounded">bolt</span></div>
+      <h3>No-Root First</h3>
+      <p>Most modules support Shizuku-based no-root mode via AX Manager's bridge layer, making them accessible without full root access.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon"><span class="material-symbols-rounded">palette</span></div>
+      <h3>WebUI Powered</h3>
+      <p>Every module ships with a fully designed WebUI — Material 3 dark aesthetic with teal accents, built as single-file HTML apps.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon"><span class="material-symbols-rounded">terminal</span></div>
+      <h3>Shell Scripted</h3>
+      <p>Modules are backed by battle-tested shell scripts — customize.sh, service.sh, action.sh — following Magisk &amp; KernelSU standards.</p>
+    </div>
+    <div class="about-card">
+      <div class="icon"><span class="material-symbols-rounded">deployed_code</span></div>
+      <h3>Flashable ZIPs</h3>
+      <p>Distributed as standard flashable ZIPs compatible with AX Manager, KernelSU, and Magisk module frameworks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>Made by <span>@SuperChrisss</span> — AX Manager Module Developer</div>
+  <div class="footer-right">CHRISNEL_MODULES · 2025</div>
+</footer>
+
+<!-- FAB -->
+<a class="fab" href="https://t.me/SuperChrisss" target="_blank" aria-label="Contact on Telegram">
+  <span class="material-symbols-rounded">send</span>
+  <span>Telegram</span>
+</a>
+
+<!-- DIALOG -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()" aria-label="Close">
+      <span class="material-symbols-rounded">close</span>
+    </button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+const modules = [
+  { id:"powerguard_ax", name:"Battery_Opt", version:"v2.1", icon:"battery_charging_full", category:"battery", badges:["noroot","webui"], tags:["thermal","doze","wakelocks"], desc:"Advanced battery optimizer with MIUI/HyperOS-style WebUI. Two-view architecture with home dashboard and tabbed detail view.", features:["Thermal throttling controls","Doze & wakelocks manager","Persistent state via filesystem","Shell bridge with logging to /data/local/tmp/powerguard_ax/","Animated HyperOS-style background"] },
+  { id:"axvyre", name:"AxVyre", version:"v1.8-Beta", icon:"shield", category:"debloat", badges:["noroot","webui","beta"], tags:["debloater","packages","safety"], desc:"Full-featured Android package manager with safety ratings. 530+ package entries, batch operations, M3 Expressive design.", features:["530+ package safety database","Batch disable/enable/uninstall","Light & dark theming","Virtual scrolling for performance","OEM-specific package knowledge"] },
+  { id:"tgcleaner", name:"TGCleaner", version:"v1.2", icon:"cleaning_services", category:"cleaner", badges:["noroot"], tags:["telegram","cache","storage"], desc:"Telegram cache cleaner with dual base path scanning. Android 11+ compatible using FUSE filesystem and cmd package clear-cache.", features:["Dual base path scanning","Android 11+ FUSE support","Multi-variant package support (FOSS, beta, etc.)","cmd package clear-cache fallback"] },
+
+  { id:"dnschangerax", name:"DNS Changer AX", version:"v1.4", icon:"dns", category:"network", badges:["noroot","webui"], tags:["DNS","network","privacy"], desc:"Switch system DNS provider instantly. Includes presets for Cloudflare, Google, AdGuard, and custom DNS entry.", features:["One-tap DNS switching","Cloudflare / Google / AdGuard presets","Custom DNS input","DoH support"] },
+
+  { id:"netguardx", name:"NetGuardX", version:"v1.2", icon:"security", category:"network", badges:["noroot","webui"], tags:["firewall","network","privacy"], desc:"Per-app network access control. Block background data and enforce Wi-Fi only policies per application.", features:["Per-app network blocking","Background data control","Wi-Fi vs Mobile data rules","Traffic usage display"] },
+  { id:"cachecleaner", name:"CacheCleaner", version:"v1.1", icon:"mop", category:"cleaner", badges:["noroot"], tags:["cache","storage","cleanup"], desc:"System-wide cache cleaner with per-app breakdown. Reclaim storage with a single tap.", features:["System cache sweep","Per-app cache view","Junk file detection","Scheduled auto-clean"] },
+
+  { id:"snakeax", name:"SnakeAX", version:"v1.5", icon:"videogame_asset", category:"game", badges:["noroot","webui"], tags:["game","snake","leaderboard"], desc:"Full-featured snake game as an AX Manager module. 60fps RAF loop, mobile D-pad, leaderboard, and persistent high scores.", features:["60fps requestAnimationFrame loop","Mobile D-pad controls","Local leaderboard with persistence","Multiple difficulty modes","WebUI-native gameplay"] }
+];
+
+const badgeLabels = { root:"ROOT", noroot:"NO-ROOT", beta:"BETA", webui:"WebUI", ai:"AI" };
+
+function renderCard(mod) {
+  const badges = mod.badges.map(b => `<span class="badge badge-${b}">${badgeLabels[b]||b}</span>`).join('');
+  const tags = mod.tags.map(t => `<span class="tag">#${t}</span>`).join('');
+  return `
+    <article class="module-card" data-category="${mod.category}" onclick="openModal('${mod.id}')">
+      <div class="card-top">
+        <div class="card-icon"><span class="material-symbols-rounded" style="font-size:24px;color:var(--md-sys-color-on-primary-container)">${mod.icon}</span></div>
+        <div class="card-badges">${badges}</div>
+      </div>
+      <div>
+        <div class="card-name">${mod.name}</div>
+        <div class="card-version">${mod.version}</div>
+      </div>
+      <div class="card-desc">${mod.desc}</div>
+      <div class="card-tags">${tags}</div>
+      <div class="card-footer">
+        <span class="card-category">${mod.category}</span>
+        <div class="card-arrow"><span class="material-symbols-rounded" style="font-size:18px">arrow_forward</span></div>
+      </div>
+    </article>`;
+}
+
+const grid = document.getElementById('modules-grid');
+grid.innerHTML = modules.map(renderCard).join('');
+document.getElementById('count-modules').textContent = modules.length;
+
+document.querySelectorAll('.chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.module-card').forEach(card => {
+      card.classList.toggle('hidden', f !== 'all' && card.dataset.category !== f);
+    });
+  });
+});
+
+function openModal(id) {
+  const mod = modules.find(m => m.id === id);
+  if (!mod) return;
+  const badges = mod.badges.map(b => `<span class="badge badge-${b}">${badgeLabels[b]||b}</span>`).join('');
+  const features = mod.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-icon"><span class="material-symbols-rounded" style="font-size:32px;color:var(--md-sys-color-on-primary-container)">${mod.icon}</span></div>
+    <div class="modal-name">${mod.name}</div>
+    <div class="modal-id">${mod.id} · ${mod.version}</div>
+    <div class="modal-badges">${badges}</div>
+    <p class="modal-desc">${mod.desc}</p>
+    <div class="modal-features">
+      <h4>Features</h4>
+      <ul class="feature-list">${features}</ul>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-text" onclick="closeModal()">Close</button>
+      <a class="btn btn-filled" href="https://t.me/SuperChrisss" target="_blank">
+        <span class="material-symbols-rounded">send</span>
+        Get on Telegram
+      </a>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (e && e.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal({target:document.getElementById('modal-overlay')}); });
+
+// ── CANVAS BG ──
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+function initParticles() {
+  particles = Array.from({length: 55}, () => ({
+    x: Math.random()*W, y: Math.random()*H,
+    r: Math.random()*1.2+0.3,
+    vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3,
+    a: Math.random()*0.5+0.1
+  }));
+}
+function drawBg() {
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle = 'rgba(79,216,196,0.04)'; ctx.lineWidth = 1;
+  const gs = 60;
+  for (let x=0;x<W;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for (let y=0;y<H;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  particles.forEach(p => {
+    p.x+=p.vx; p.y+=p.vy;
+    if (p.x<0)p.x=W; if (p.x>W)p.x=0; if (p.y<0)p.y=H; if (p.y>H)p.y=0;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle = `rgba(79,216,196,${p.a})`; ctx.fill();
+  });
+  for (let i=0;i<particles.length;i++) for (let j=i+1;j<particles.length;j++) {
+    const dx=particles[i].x-particles[j].x, dy=particles[i].y-particles[j].y;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if (dist<110){ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.strokeStyle=`rgba(79,216,196,${0.07*(1-dist/110)})`;ctx.lineWidth=0.5;ctx.stroke();}
+  }
+  requestAnimationFrame(drawBg);
+}
+resize(); initParticles(); drawBg();
+window.addEventListener('resize', () => { resize(); initParticles(); });
+</script>
+</body>
+</html>
