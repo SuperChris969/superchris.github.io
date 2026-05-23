@@ -576,25 +576,6 @@ footer span { color: var(--md-sys-color-primary); }
 
 <canvas id="bg-canvas"></canvas>
 
-<!-- TOP APP BAR -->
-<header class="top-app-bar">
-  <div class="brand">
-    <div class="brand-mark">AX</div>
-    <div class="brand-text">
-      <div><strong>SuperChrisss</strong> Modules</div>
-      <small>AX Manager · KernelSU</small>
-    </div>
-  </div>
-  <nav class="bar-nav">
-    <a href="#modules"><span class="material-symbols-rounded" style="font-size:18px">apps</span>Modules</a>
-    <a href="#about"><span class="material-symbols-rounded" style="font-size:18px">info</span>About</a>
-    <a href="https://t.me/SuperChrisss" target="_blank"><span class="material-symbols-rounded" style="font-size:18px">send</span>Telegram</a>
-  </nav>
-  <div class="assist-chip">
-    <span class="material-symbols-rounded">verified</span>
-    v2025.1
-  </div>
-</header>
 
 <!-- HERO -->
 <section class="hero">
@@ -606,7 +587,6 @@ footer span { color: var(--md-sys-color-primary); }
   <div class="hero-handle">@SuperChrisss</div>
   <p class="hero-desc">
     Flashable AX Manager modules built for performance, control, and clean design.
-    Root-optional tools crafted for the KernelSU ecosystem.
   </p>
   <div class="hero-stats">
     <div class="stat-card">
@@ -614,11 +594,11 @@ footer span { color: var(--md-sys-color-primary); }
       <div class="stat-label">Modules</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">AX</div>
+      <div class="stat-num">AxManager</div>
       <div class="stat-label">Platform</div>
     </div>
     <div class="stat-card">
-      <div class="stat-num">v2+</div>
+      <div class="stat-num">10+</div>
       <div class="stat-label">Android</div>
     </div>
   </div>
@@ -638,19 +618,8 @@ footer span { color: var(--md-sys-color-primary); }
 <!-- MODULES -->
 <section id="modules">
   <div class="section-header">
-    <div class="section-tag">my_modules</div>
+    <div class="section-tag"></div>
     <h2 class="section-title headline-l">All <span>Modules</span></h2>
-  </div>
-
-  <div class="filter-bar" role="tablist">
-    <button class="chip active" data-filter="all">All</button>
-    <button class="chip" data-filter="battery">Battery</button>
-    <button class="chip" data-filter="performance">Performance</button>
-    <button class="chip" data-filter="debloat">Debloater</button>
-    <button class="chip" data-filter="cleaner">Cleaner</button>
-    <button class="chip" data-filter="network">Network</button>
-    <button class="chip" data-filter="system">System</button>
-    <button class="chip" data-filter="game">Gaming</button>
   </div>
 
   <div class="modules-grid" id="modules-grid"></div>
@@ -689,7 +658,7 @@ footer span { color: var(--md-sys-color-primary); }
 <!-- FOOTER -->
 <footer>
   <div>Made by <span>@SuperChrisss</span> — AX Manager Module Developer</div>
-  <div class="footer-right">CHRISNEL_MODULES · 2025</div>
+  <div class="footer-right">SuperChris · 2026</div>
 </footer>
 
 <!-- FAB -->
@@ -710,8 +679,8 @@ footer span { color: var(--md-sys-color-primary); }
 
 <script>
 const modules = [
-  { id:"powerguard_ax", name:"Battery_Opt", version:"v2.1", icon:"battery_charging_full", category:"battery", badges:["noroot","webui"], tags:["thermal","doze","wakelocks"], desc:"Advanced battery optimizer with MIUI/HyperOS-style WebUI. Two-view architecture with home dashboard and tabbed detail view.", features:["Thermal throttling controls","Doze & wakelocks manager","Persistent state via filesystem","Shell bridge with logging to /data/local/tmp/powerguard_ax/","Animated HyperOS-style background"] },
-  { id:"axvyre", name:"AxVyre", version:"v1.8-Beta", icon:"shield", category:"debloat", badges:["noroot","webui","beta"], tags:["debloater","packages","safety"], desc:"Full-featured Android package manager with safety ratings. 530+ package entries, batch operations, M3 Expressive design.", features:["530+ package safety database","Batch disable/enable/uninstall","Light & dark theming","Virtual scrolling for performance","OEM-specific package knowledge"] },
+
+  { id:"axvyre", name:"AxVyre", version:"v1.8", icon:"shield", category:"debloat", badges:["noroot","webui",""], tags:["debloater","packages","safety"], desc:"Full-featured Android package manager with safety ratings. 530+ package entries, batch operations, M3 Expressive design.", features:["530+ package safety database","Batch disable/enable/uninstall","Light & dark theming","Virtual scrolling for performance","OEM-specific package knowledge"] },
   { id:"tgcleaner", name:"TGCleaner", version:"v1.2", icon:"cleaning_services", category:"cleaner", badges:["noroot"], tags:["telegram","cache","storage"], desc:"Telegram cache cleaner with dual base path scanning. Android 11+ compatible using FUSE filesystem and cmd package clear-cache.", features:["Dual base path scanning","Android 11+ FUSE support","Multi-variant package support (FOSS, beta, etc.)","cmd package clear-cache fallback"] },
 
   { id:"dnschangerax", name:"DNS Changer AX", version:"v1.4", icon:"dns", category:"network", badges:["noroot","webui"], tags:["DNS","network","privacy"], desc:"Switch system DNS provider instantly. Includes presets for Cloudflare, Google, AdGuard, and custom DNS entry.", features:["One-tap DNS switching","Cloudflare / Google / AdGuard presets","Custom DNS input","DoH support"] },
@@ -726,23 +695,17 @@ const badgeLabels = { root:"ROOT", noroot:"NO-ROOT", beta:"BETA", webui:"WebUI",
 
 function renderCard(mod) {
   const badges = mod.badges.map(b => `<span class="badge badge-${b}">${badgeLabels[b]||b}</span>`).join('');
-  const tags = mod.tags.map(t => `<span class="tag">#${t}</span>`).join('');
   return `
     <article class="module-card" data-category="${mod.category}" onclick="openModal('${mod.id}')">
       <div class="card-top">
         <div class="card-icon"><span class="material-symbols-rounded" style="font-size:24px;color:var(--md-sys-color-on-primary-container)">${mod.icon}</span></div>
-        <div class="card-badges">${badges}</div>
       </div>
       <div>
         <div class="card-name">${mod.name}</div>
         <div class="card-version">${mod.version}</div>
       </div>
       <div class="card-desc">${mod.desc}</div>
-      <div class="card-tags">${tags}</div>
-      <div class="card-footer">
-        <span class="card-category">${mod.category}</span>
-        <div class="card-arrow"><span class="material-symbols-rounded" style="font-size:18px">arrow_forward</span></div>
-      </div>
+
     </article>`;
 }
 
@@ -750,16 +713,7 @@ const grid = document.getElementById('modules-grid');
 grid.innerHTML = modules.map(renderCard).join('');
 document.getElementById('count-modules').textContent = modules.length;
 
-document.querySelectorAll('.chip').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    document.querySelectorAll('.module-card').forEach(card => {
-      card.classList.toggle('hidden', f !== 'all' && card.dataset.category !== f);
-    });
-  });
-});
+
 
 function openModal(id) {
   const mod = modules.find(m => m.id === id);
@@ -778,9 +732,9 @@ function openModal(id) {
     </div>
     <div class="modal-footer">
       <button class="btn btn-text" onclick="closeModal()">Close</button>
-      <a class="btn btn-filled" href="https://t.me/SuperChrisss" target="_blank">
-        <span class="material-symbols-rounded">send</span>
-        Get on Telegram
+      <a class="btn btn-filled" href="#" download>
+        <span class="material-symbols-rounded">download</span>
+        Download
       </a>
     </div>`;
   document.getElementById('modal-overlay').classList.add('open');
